@@ -1,12 +1,10 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanachat/core/common/bloc/app_theme_cubit/app_theme_cubit.dart';
 import 'package:kanachat/core/common/entities/app_theme_entity.dart';
 import 'package:kanachat/core/themes/app_colors.dart';
-import 'package:kanachat/features/chat/presentation/widgets/chat_bubble.dart';
-import 'package:kanachat/features/customization/presentation/screens/customization_screen.dart';
+import 'package:kanachat/features/settings/presentation/screens/customization_screen.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 class ChattingScreen extends StatefulWidget {

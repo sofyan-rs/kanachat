@@ -3,7 +3,7 @@ import 'package:kanachat/core/api/api_client.dart';
 import 'package:kanachat/core/api/api_constants.dart';
 import 'package:kanachat/core/error/exceptions.dart';
 import 'package:kanachat/core/utils/build_custom_prompt.dart';
-import 'package:kanachat/features/customization/domain/entities/chat_customization_entity.dart';
+import 'package:kanachat/features/settings/domain/entities/chat_customization_entity.dart';
 
 abstract interface class ChatRemoteDatasource {
   Future<String> postChat({

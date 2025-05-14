@@ -29,7 +29,9 @@ class LocalDatabase {
   static Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE chat_history (
-        id INTEGER PRIMARY KEY AUTOINCREMENT
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        created_at TEXT NOT NULL,
       );
     ''');
 
@@ -41,6 +43,13 @@ class LocalDatabase {
         created_at TEXT NOT NULL,
         chat_history_id INTEGER NOT NULL,
         FOREIGN KEY (chat_history_id) REFERENCES chat_history(id) ON DELETE CASCADE
+      );
+    ''');
+
+    await db.execute('''
+      CREATE TABLE settings (
+        key TEXT PRIMARY KEY,
+        value TEXT
       );
     ''');
   }

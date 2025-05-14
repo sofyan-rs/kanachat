@@ -3,7 +3,7 @@ import 'package:kanachat/core/error/exceptions.dart';
 import 'package:kanachat/core/error/failures.dart';
 import 'package:kanachat/core/network/connection_checker.dart';
 import 'package:kanachat/features/chat/data/datasources/remote/chat_remote_datasource.dart';
-import 'package:kanachat/features/customization/domain/entities/chat_customization_entity.dart';
+import 'package:kanachat/features/settings/domain/entities/chat_customization_entity.dart';
 import 'package:kanachat/features/chat/domain/repository/chat_repository.dart';
 
 class ChatRepositoryImpl implements ChatRepository {

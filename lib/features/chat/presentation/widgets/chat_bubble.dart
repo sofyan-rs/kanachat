@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kanachat/core/themes/app_colors.dart';
 
 class ChatBubble extends StatelessWidget {
   const ChatBubble({
