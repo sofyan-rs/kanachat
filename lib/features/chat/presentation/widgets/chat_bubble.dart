@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kanachat/core/utils/datetime_formatter.dart';
+import 'package:kanachat/features/chat/presentation/widgets/typewritter_markdown.dart';
 
 class ChatBubble extends StatelessWidget {
   const ChatBubble({
@@ -6,11 +8,13 @@ class ChatBubble extends StatelessWidget {
     required this.message,
     required this.isMe,
     required this.time,
+    required this.isTyping,
   });
 
   final String message;
   final bool isMe;
-  final String time;
+  final DateTime time;
+  final bool isTyping;
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +42,14 @@ class ChatBubble extends StatelessWidget {
                 crossAxisAlignment:
                     isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    message,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color:
-                          isMe
-                              ? Theme.of(context).colorScheme.onPrimary
-                              : Theme.of(context).colorScheme.onSurface,
-                    ),
+                  TypewriterMarkdown(
+                    markdownText: message,
+                    isMe: isMe,
+                    isTyping: isTyping,
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    time,
+                    DateTimeFormatter.formatDateTime(time),
                     style: TextStyle(
                       color:
                           isMe

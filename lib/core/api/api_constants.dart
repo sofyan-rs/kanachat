@@ -1,8 +1,10 @@
+import 'package:kanachat/core/secrets/app_secrets.dart';
+
 class ApiEndpoints {
   // Base URL
   static const String baseUrl = "https://generativelanguage.googleapis.com";
 
   // Endpoints
-  static const String generateContent =
-      "/v1beta/models/gemini-pro:generateContent";
+  static String generateContent =
+      "/v1beta/models/gemini-2.0-flash:generateContent?key=${AppSecrets.geminiApiKey}";
 }

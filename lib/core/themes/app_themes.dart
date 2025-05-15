@@ -24,25 +24,25 @@ class AppThemes {
       color: AppColors.lightSurface,
       elevation: 0,
       iconTheme: IconThemeData(color: AppColors.primary),
+      toolbarHeight: 70,
     ),
-    // inputDecorationTheme: const InputDecorationTheme(
-    //   // border: InputBorder.none,
-    //   fillColor: AppColors.lightBackground,
-    //   filled: true,
-    //   border: OutlineInputBorder(
-    //     borderRadius: BorderRadius.all(Radius.circular(50)),
-    //     borderSide: BorderSide.none,
-    //   ),
-    //   focusedBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.all(Radius.circular(50)),
-    //     borderSide: BorderSide(color: AppColors.primary, width: 1.5),
-    //   ),
-    //   enabledBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.all(Radius.circular(50)),
-    //     borderSide: BorderSide.none,
-    //   ),
-    //   contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-    // ),
+    inputDecorationTheme: const InputDecorationTheme(
+      fillColor: AppColors.lightSurface,
+      filled: true,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderSide: BorderSide.none,
+      ),
+      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+    ),
   );
 
   ThemeData get darkTheme => ThemeData(
@@ -58,24 +58,24 @@ class AppThemes {
       color: AppColors.darkSurface,
       elevation: 0,
       iconTheme: IconThemeData(color: AppColors.primary),
+      toolbarHeight: 70,
     ),
-    // inputDecorationTheme: const InputDecorationTheme(
-    //   // border: InputBorder.none,
-    //   fillColor: AppColors.darkBackground,
-    //   filled: true,
-    //   border: OutlineInputBorder(
-    //     borderRadius: BorderRadius.all(Radius.circular(50)),
-    //     borderSide: BorderSide.none,
-    //   ),
-    //   focusedBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.all(Radius.circular(50)),
-    //     borderSide: BorderSide(color: AppColors.primary, width: 1.5),
-    //   ),
-    //   enabledBorder: OutlineInputBorder(
-    //     borderRadius: BorderRadius.all(Radius.circular(50)),
-    //     borderSide: BorderSide.none,
-    //   ),
-    //   contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-    // ),
+    inputDecorationTheme: const InputDecorationTheme(
+      fillColor: AppColors.darkSurface,
+      filled: true,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderSide: BorderSide.none,
+      ),
+      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+    ),
   );
 }

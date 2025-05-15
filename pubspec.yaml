@@ -11,11 +11,13 @@ dependencies:
   dio: ^5.8.0+1
   flutter:
     sdk: flutter
+  flutter_animate: ^4.5.2
   flutter_bloc: ^9.1.1
   flutter_dotenv: ^5.2.1
   fpdart: ^1.1.1
   get_it: ^8.0.3
   google_fonts: ^6.2.1
+  gpt_markdown: ^1.0.18
   hydrated_bloc: ^10.0.0
   internet_connection_checker_plus: ^2.7.2
   intl: ^0.20.2
