@@ -7,7 +7,6 @@ import 'package:kanachat/core/utils/show_snackbar.dart';
 import 'package:kanachat/features/chat/domain/entities/chat_message_entity.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
-import 'package:kanachat/features/chat/presentation/bloc/chat_typing_cubit/chat_typing_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/post_chat_bloc/post_chat_bloc.dart';
 import 'package:kanachat/features/chat/presentation/widgets/chat_bubble.dart';
 import 'package:kanachat/features/customization/domain/entities/chat_customization_entity.dart';
