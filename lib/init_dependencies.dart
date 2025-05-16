@@ -7,6 +7,7 @@ import 'package:kanachat/features/chat/data/datasources/local/chat_local_datasou
 import 'package:kanachat/features/chat/data/datasources/remote/chat_remote_datasource.dart';
 import 'package:kanachat/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:kanachat/features/chat/domain/repository/chat_repository.dart';
+import 'package:kanachat/features/chat/domain/usecases/clear_chat_list.dart';
 import 'package:kanachat/features/chat/domain/usecases/get_chat_list.dart';
 import 'package:kanachat/features/chat/domain/usecases/post_chat.dart';
 import 'package:kanachat/features/chat/domain/usecases/store_chat.dart';
@@ -86,6 +87,7 @@ void _initChat() {
   sl.registerLazySingleton(() => PostChat(sl()));
   sl.registerLazySingleton(() => GetChatList(sl()));
   sl.registerLazySingleton(() => StoreChat(sl()));
+  sl.registerLazySingleton(() => ClearChatList(sl()));
 
   // Bloc
   sl.registerLazySingleton(() => ChatMessagesCubit());
@@ -93,6 +95,7 @@ void _initChat() {
     () => ChatListBloc(
       getChatList: sl(),
       storeChat: sl(),
+      clearChatList: sl(),
       chatMessagesCubit: sl(),
     ),
   );

@@ -6,11 +6,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:kanachat/core/common/bloc/app_theme_cubit/app_theme_cubit.dart';
 import 'package:kanachat/core/common/entities/app_theme_entity.dart';
+import 'package:kanachat/core/router/app_router.dart';
 import 'package:kanachat/core/themes/app_themes.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/post_chat_bloc/post_chat_bloc.dart';
-import 'package:kanachat/features/chat/presentation/screens/chatting_screen.dart';
 import 'package:kanachat/features/customization/presentation/bloc/chat_customization_bloc.dart';
 import 'package:kanachat/init_dependencies.dart';
 import 'package:path_provider/path_provider.dart';
@@ -47,13 +47,13 @@ class KanaChatApp extends StatelessWidget {
       ],
       child: BlocBuilder<AppThemeCubit, AppThemeEntity>(
         builder: (context, state) {
-          return MaterialApp(
-            title: 'KanaChat',
-            debugShowCheckedModeBanner: false,
+          return MaterialApp.router(
             themeMode: state.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             theme: AppThemes().lightTheme,
             darkTheme: AppThemes().darkTheme,
-            home: const ChattingScreen(),
+            debugShowCheckedModeBanner: false,
+            title: 'KanaChat',
+            routerConfig: AppRouter().router,
           );
         },
       ),

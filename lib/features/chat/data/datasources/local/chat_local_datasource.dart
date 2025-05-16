@@ -8,6 +8,7 @@ abstract interface class ChatLocalDatasource {
   Future<ChatMessageModel> storeChatMessage({
     required ChatMessageModel chatMessage,
   });
+  Future<void> clearChatMessageList();
 }
 
 class ChatLocalDatasourceImpl implements ChatLocalDatasource {
@@ -16,7 +17,6 @@ class ChatLocalDatasourceImpl implements ChatLocalDatasource {
     try {
       final db = await LocalDatabase.database;
       final result = await db.query('chat_message');
-      // print(result);
       return result.map((e) => ChatMessageModel.fromJson(e)).toList();
     } catch (e) {
       throw LocalException('Failed to get chat message list: $e');
@@ -38,6 +38,16 @@ class ChatLocalDatasourceImpl implements ChatLocalDatasource {
       return chatMessage;
     } catch (e) {
       throw LocalException('Failed to store chat message: $e');
+    }
+  }
+
+  @override
+  Future<void> clearChatMessageList() async {
+    try {
+      final db = await LocalDatabase.database;
+      await db.delete('chat_message');
+    } catch (e) {
+      throw LocalException('Failed to clear chat message list: $e');
     }
   }
 }

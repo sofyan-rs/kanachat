@@ -61,7 +61,7 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: false, title: const Text('Customization')),
+      appBar: AppBar(title: const Text('Customization')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(

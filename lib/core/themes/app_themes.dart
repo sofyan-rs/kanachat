@@ -43,6 +43,23 @@ class AppThemes {
       ),
       contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
     ),
+    popupMenuTheme: const PopupMenuThemeData(
+      color: AppColors.lightBackground,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+    ),
+    dialogTheme: const DialogTheme(
+      titleTextStyle: TextStyle(
+        color: AppColors.primary,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+      backgroundColor: AppColors.lightSurface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+    ),
   );
 
   ThemeData get darkTheme => ThemeData(
@@ -76,6 +93,23 @@ class AppThemes {
         borderSide: BorderSide.none,
       ),
       contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+    ),
+    popupMenuTheme: const PopupMenuThemeData(
+      color: AppColors.darkBackground,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+    ),
+    dialogTheme: const DialogTheme(
+      titleTextStyle: TextStyle(
+        color: AppColors.primary,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+      backgroundColor: AppColors.darkSurface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
     ),
   );
 }

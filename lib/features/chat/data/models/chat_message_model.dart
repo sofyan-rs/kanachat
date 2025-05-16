@@ -11,7 +11,7 @@ class ChatMessageModel extends ChatMessageEntity {
 
   factory ChatMessageModel.fromJson(Map<String, dynamic> json) {
     return ChatMessageModel(
-      id: json['id'] as int?,
+      id: json['id'] as String,
       message: json['message'] as String,
       isUser: json['is_user'] as int == 1 ? true : false,
       createdAt: DateTime.parse(json['created_at'] as String),
@@ -21,7 +21,7 @@ class ChatMessageModel extends ChatMessageEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      if (id != null) 'id': id,
+      'id': id,
       'message': message,
       'is_user': isUser ? 1 : 0,
       'created_at': createdAt.toIso8601String(),

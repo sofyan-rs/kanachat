@@ -10,3 +10,5 @@ final class ChatListMessageAdded extends ChatListEvent {
 
   ChatListMessageAdded({required this.message});
 }
+
+final class ChatListCleared extends ChatListEvent {}

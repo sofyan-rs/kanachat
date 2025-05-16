@@ -20,3 +20,5 @@ final class ChatListError extends ChatListState {
 }
 
 final class ChatListMessageSaved extends ChatListState {}
+
+final class ChatListEmptied extends ChatListState {}

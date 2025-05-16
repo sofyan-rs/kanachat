@@ -1,8 +1,10 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:uuid/uuid.dart';
 
 class LocalDatabase {
   static Database? _database;
+  static const _uuid = Uuid();
 
   static Future<Database> get database async {
     if (_database != null) return _database!;
@@ -29,7 +31,7 @@ class LocalDatabase {
   static Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
     CREATE TABLE chat_history (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id TEXT PRIMARY KEY,
       title TEXT NOT NULL,
       created_at TEXT NOT NULL
     );
@@ -37,11 +39,11 @@ class LocalDatabase {
 
     await db.execute('''
     CREATE TABLE chat_message (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id TEXT PRIMARY KEY,
       message TEXT NOT NULL,
       is_user INTEGER NOT NULL,
       created_at TEXT NOT NULL,
-      chat_history_id INTEGER,
+      chat_history_id TEXT,
       FOREIGN KEY (chat_history_id) REFERENCES chat_history(id) ON DELETE CASCADE
     );
   ''');
@@ -53,4 +55,7 @@ class LocalDatabase {
     );
   ''');
   }
+
+  /// Generates a new UUID (version 4)
+  static String generateUuid() => _uuid.v4();
 }

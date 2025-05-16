@@ -64,4 +64,14 @@ class ChatRepositoryImpl implements ChatRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> clearChatMessageList() async {
+    try {
+      await chatLocalDatasource.clearChatMessageList();
+      return const Right(null);
+    } on LocalException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

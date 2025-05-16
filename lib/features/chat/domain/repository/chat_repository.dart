@@ -12,4 +12,5 @@ abstract class ChatRepository {
   Future<Either<Failure, ChatMessageEntity>> storeChatMessage({
     required ChatMessageEntity chatMessage,
   });
+  Future<Either<Failure, void>> clearChatMessageList();
 }
