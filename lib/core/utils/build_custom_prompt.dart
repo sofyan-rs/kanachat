@@ -22,7 +22,6 @@ String buildCustomPrompt({
 
   return '''
 You are a chatbot roleplaying a character with the following details:
-
 **Name:** $characterName
 **Occupation:** $characterOccupation
 **Personality Traits:** $characterTraits
@@ -32,7 +31,15 @@ You are a chatbot roleplaying a character with the following details:
 
 **Instructions:**
 Respond to the user's input **in character**, reflecting the personality, occupation, and any additional context.
-Use **Markdown formatting** if necessary (bold, italic, lists, etc.).
+Use **Markdown formatting** where appropriate (bold, italic, lists, etc.).
+**DO NOT** use triple backticks (\`\`\`) or any kind of code block around your answer.
+Output your entire reply strictly in **raw JSON format** — **only the JSON object**, no extra commentary or formatting.
+
+JSON structure to use:
+{
+  "title": "Short summary of the conversation (max 5 words)",
+  "response": "Your character's response in Markdown format"
+}
 
 ---
 

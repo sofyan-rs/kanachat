@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanachat/core/usecase/usecase.dart';
 import 'package:kanachat/features/chat/domain/entities/chat_message_entity.dart';
-import 'package:kanachat/features/chat/domain/usecases/clear_chat_list.dart';
-import 'package:kanachat/features/chat/domain/usecases/get_chat_list.dart';
-import 'package:kanachat/features/chat/domain/usecases/store_chat.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_message/clear_chat_list.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_message/get_chat_list_by_history_id.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_message/store_chat.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
 
 part 'chat_list_event.dart';
 part 'chat_list_state.dart';
 
 class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
-  final GetChatList getChatList;
+  final GetChatListByHistoryId getChatList;
   final StoreChat storeChat;
   final ClearChatList clearChatList;
   final ChatMessagesCubit chatMessagesCubit;
@@ -34,7 +34,9 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     Emitter<ChatListState> emit,
   ) async {
     emit(ChatListLoading());
-    final res = await getChatList(NoParams());
+    final res = await getChatList(
+      GetChatListByHistoryIdParams(chatHistoryId: event.chatHistoryId),
+    );
     res.fold((l) => emit(ChatListError(message: l.message)), (r) {
       emit(ChatListLoaded(messages: r));
       chatMessagesCubit.setMessages(r);
@@ -62,7 +64,6 @@ class ChatListBloc extends Bloc<ChatListEvent, ChatListState> {
     final res = await clearChatList(NoParams());
     res.fold((l) => emit(ChatListError(message: l.message)), (r) {
       emit(ChatListEmptied());
-      add(ChatListRequested());
     });
   }
 }

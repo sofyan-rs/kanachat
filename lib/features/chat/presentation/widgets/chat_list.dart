@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kanachat/core/utils/string_formatter.dart';
 import 'package:kanachat/features/chat/domain/entities/chat_message_entity.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
 import 'package:kanachat/features/chat/presentation/widgets/chat_bubble.dart';
@@ -36,7 +39,12 @@ class _ChatListState extends State<ChatList> {
                   final chat = state[state.length - 1 - index];
                   return ChatBubble(
                     key: ValueKey(chat.id),
-                    message: chat.message,
+                    message:
+                        chat.isUser
+                            ? chat.message
+                            : JsonDecoder().convert(
+                              StringFormatter().cleanJsonOutput(chat.message),
+                            )['response'],
                     isMe: chat.isUser,
                     time: chat.createdAt,
                     isTyping: false,

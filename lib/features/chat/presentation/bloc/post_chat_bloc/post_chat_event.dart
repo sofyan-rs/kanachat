@@ -6,6 +6,11 @@ sealed class PostChatEvent {}
 final class PostChatRequested extends PostChatEvent {
   final String userInput;
   final ChatCustomizationEntity customization;
+  final List<ChatMessageEntity> chatHistory;
 
-  PostChatRequested({required this.userInput, required this.customization});
+  PostChatRequested({
+    required this.userInput,
+    required this.customization,
+    required this.chatHistory,
+  });
 }

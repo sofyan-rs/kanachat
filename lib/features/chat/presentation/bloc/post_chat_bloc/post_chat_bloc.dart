@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kanachat/features/chat/domain/usecases/post_chat.dart';
+import 'package:kanachat/features/chat/domain/entities/chat_message_entity.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_message/post_chat.dart';
 import 'package:kanachat/features/customization/domain/entities/chat_customization_entity.dart';
 
 part 'post_chat_event.dart';
@@ -19,6 +20,7 @@ class PostChatBloc extends Bloc<PostChatEvent, PostChatState> {
       PostChatParams(
         userInput: event.userInput,
         customization: event.customization,
+        chatHistory: event.chatHistory,
       ),
     );
     res.fold(

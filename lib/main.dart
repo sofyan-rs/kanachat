@@ -8,8 +8,10 @@ import 'package:kanachat/core/common/bloc/app_theme_cubit/app_theme_cubit.dart';
 import 'package:kanachat/core/common/entities/app_theme_entity.dart';
 import 'package:kanachat/core/router/app_router.dart';
 import 'package:kanachat/core/themes/app_themes.dart';
+import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
+import 'package:kanachat/features/chat/presentation/bloc/current_history_cubit/current_history_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/post_chat_bloc/post_chat_bloc.dart';
 import 'package:kanachat/features/customization/presentation/bloc/chat_customization_bloc.dart';
 import 'package:kanachat/init_dependencies.dart';
@@ -41,6 +43,8 @@ class KanaChatApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => sl<AppThemeCubit>()),
         BlocProvider(create: (context) => sl<ChatCustomizationBloc>()),
+        BlocProvider(create: (context) => sl<CurrentHistoryCubit>()),
+        BlocProvider(create: (context) => sl<ChatHistoryBloc>()),
         BlocProvider(create: (context) => sl<ChatMessagesCubit>()),
         BlocProvider(create: (context) => sl<ChatListBloc>()),
         BlocProvider(create: (context) => sl<PostChatBloc>()),

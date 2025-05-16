@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kanachat/features/chat/presentation/screens/chatting_screen.dart';
 import 'package:kanachat/features/customization/presentation/screens/customization_screen.dart';
-import 'package:kanachat/features/history/presentation/screens/history_screen.dart';
+import 'package:kanachat/features/chat/presentation/screens/history_screen.dart';
 
 enum NavType { push, go, replace }
 

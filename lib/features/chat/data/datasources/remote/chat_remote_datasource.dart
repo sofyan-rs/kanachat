@@ -48,7 +48,7 @@ class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
         },
         options: Options(headers: {"Content-Type": "application/json"}),
       );
-      print(response.data);
+      // print(response.data);
       final data = response.data;
       final reply = data['candidates'][0]['content']['parts'][0]['text'];
       return reply;

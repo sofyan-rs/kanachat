@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanachat/core/common/bloc/app_theme_cubit/app_theme_cubit.dart';
@@ -5,8 +7,13 @@ import 'package:kanachat/core/common/entities/app_theme_entity.dart';
 import 'package:kanachat/core/db/local_database.dart';
 import 'package:kanachat/core/themes/app_colors.dart';
 import 'package:kanachat/core/utils/show_snackbar.dart';
+import 'package:kanachat/core/utils/string_formatter.dart';
+import 'package:kanachat/features/chat/domain/entities/chat_history_entity.dart';
 import 'package:kanachat/features/chat/domain/entities/chat_message_entity.dart';
+import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
+import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
+import 'package:kanachat/features/chat/presentation/bloc/current_history_cubit/current_history_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/post_chat_bloc/post_chat_bloc.dart';
 import 'package:kanachat/features/customization/domain/entities/chat_customization_entity.dart';
 import 'package:kanachat/features/customization/presentation/bloc/chat_customization_bloc.dart';
@@ -23,6 +30,8 @@ class _ChatInputState extends State<ChatInput> {
   final _inputChatController = TextEditingController();
 
   void _onSendMessage() {
+    final chatHistory = context.read<CurrentHistoryCubit>().state;
+    print(chatHistory.id);
     context.read<ChatCustomizationBloc>().add(ChatCustomizationRequested());
     final customization = context.read<ChatCustomizationBloc>().state;
     if (_inputChatController.text.isNotEmpty) {
@@ -31,7 +40,7 @@ class _ChatInputState extends State<ChatInput> {
         message: _inputChatController.text.trim(),
         isUser: true,
         createdAt: DateTime.now(),
-        // chatHistoryId: '',
+        chatHistoryId: chatHistory.id,
       );
       context.read<ChatListBloc>().add(ChatListMessageAdded(message: message));
       context.read<PostChatBloc>().add(
@@ -46,6 +55,7 @@ class _ChatInputState extends State<ChatInput> {
                     traits: null,
                     additionalInfo: null,
                   ),
+          chatHistory: context.read<ChatMessagesCubit>().state,
         ),
       );
       _inputChatController.clear();
@@ -125,6 +135,9 @@ class _ChatInputState extends State<ChatInput> {
                 child: BlocListener<PostChatBloc, PostChatState>(
                   listener: (context, state) {
                     if (state is PostChatSuccess) {
+                      final chatHistory =
+                          context.read<CurrentHistoryCubit>().state;
+
                       context.read<ChatListBloc>().add(
                         ChatListMessageAdded(
                           message: ChatMessageEntity(
@@ -132,10 +145,29 @@ class _ChatInputState extends State<ChatInput> {
                             message: state.message,
                             isUser: false,
                             createdAt: DateTime.now(),
-                            // chatHistoryId: '',
+                            chatHistoryId: chatHistory.id,
                           ),
                         ),
                       );
+
+                      if (chatHistory.title == 'New Chat') {
+                        context.read<ChatHistoryBloc>().add(
+                          ChatHistoryStored(
+                            chatHistory: ChatHistoryEntity(
+                              id: chatHistory.id,
+                              title:
+                                  JsonDecoder().convert(
+                                    StringFormatter().cleanJsonOutput(
+                                      state.message,
+                                    ),
+                                  )['title'] ??
+                                  'New Chat',
+                              createdAt: DateTime.now(),
+                            ),
+                          ),
+                        );
+                      }
+
                       // context.read<ChatTypingCubit>().setTyping(true);
                     }
                   },

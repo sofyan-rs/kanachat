@@ -7,12 +7,18 @@ import 'package:kanachat/features/chat/data/datasources/local/chat_local_datasou
 import 'package:kanachat/features/chat/data/datasources/remote/chat_remote_datasource.dart';
 import 'package:kanachat/features/chat/data/repositories/chat_repository_impl.dart';
 import 'package:kanachat/features/chat/domain/repository/chat_repository.dart';
-import 'package:kanachat/features/chat/domain/usecases/clear_chat_list.dart';
-import 'package:kanachat/features/chat/domain/usecases/get_chat_list.dart';
-import 'package:kanachat/features/chat/domain/usecases/post_chat.dart';
-import 'package:kanachat/features/chat/domain/usecases/store_chat.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_history/delete_chat_history.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_history/get_chat_history_list.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_history/store_chat_history.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_message/clear_chat_list.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_message/get_chat_list.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_message/get_chat_list_by_history_id.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_message/post_chat.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_message/store_chat.dart';
+import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
+import 'package:kanachat/features/chat/presentation/bloc/current_history_cubit/current_history_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/post_chat_bloc/post_chat_bloc.dart';
 import 'package:kanachat/features/customization/data/datasources/local/chat_customization_local_datasource.dart';
 import 'package:kanachat/features/customization/data/repositories/chat_customization_repository_impl.dart';
@@ -85,11 +91,24 @@ void _initChat() {
 
   // Use cases
   sl.registerLazySingleton(() => PostChat(sl()));
-  sl.registerLazySingleton(() => GetChatList(sl()));
+  sl.registerLazySingleton(() => GetChatListByHistoryId(sl()));
   sl.registerLazySingleton(() => StoreChat(sl()));
   sl.registerLazySingleton(() => ClearChatList(sl()));
 
+  // Chat history
+  sl.registerLazySingleton(() => GetChatHistoryList(sl()));
+  sl.registerLazySingleton(() => StoreChatHistory(sl()));
+  sl.registerLazySingleton(() => DeleteChatHistory(sl()));
+
   // Bloc
+  sl.registerLazySingleton(() => CurrentHistoryCubit());
+  sl.registerLazySingleton(
+    () => ChatHistoryBloc(
+      getChatHistoryList: sl(),
+      storeChatHistory: sl(),
+      deleteChatHistory: sl(),
+    ),
+  );
   sl.registerLazySingleton(() => ChatMessagesCubit());
   sl.registerLazySingleton(
     () => ChatListBloc(
