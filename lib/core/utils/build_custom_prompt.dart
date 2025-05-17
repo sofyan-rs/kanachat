@@ -45,19 +45,6 @@ String buildCustomPrompt({
   buffer.writeln('**User Input:**');
   buffer.writeln('"$userInput"\n');
 
-  final recentContext =
-      (recentMessages != null && recentMessages.isNotEmpty)
-          ? recentMessages
-              .take(5)
-              .map((msg) => '- ${msg.isUser ? 'user' : 'bot'}: ${msg.message}')
-              .join('\n')
-          : null;
-
-  if (recentContext != null) {
-    buffer.writeln('**Conversation History:**');
-    buffer.writeln(recentContext);
-  }
-
   if (kDebugMode) {
     print('Custom Prompt: ${buffer.toString()}');
   }

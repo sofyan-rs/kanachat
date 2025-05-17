@@ -1,6 +1,6 @@
+import 'package:firebase_vertexai/firebase_vertexai.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:kanachat/core/api/api_client.dart';
 import 'package:kanachat/core/common/bloc/app_theme_cubit/app_theme_cubit.dart';
 import 'package:kanachat/core/network/connection_checker.dart';
 import 'package:kanachat/features/chat/data/datasources/local/chat_local_datasource.dart';
@@ -33,7 +33,6 @@ final GetIt sl = GetIt.instance;
 
 Future<void> initDependencies() async {
   // Core
-  sl.registerLazySingleton(() => ApiClient());
   sl.registerFactory(() => InternetConnection());
   sl.registerFactory<ConnectionChecker>(() => ConnectionCheckerImpl(sl()));
 
@@ -73,12 +72,16 @@ void _initCustomization() {
 }
 
 void _initChat() {
+  final model = FirebaseVertexAI.instance.generativeModel(
+    model: 'gemini-2.5-flash',
+  );
+
   // Data sources
   sl.registerLazySingleton<ChatLocalDatasource>(
     () => ChatLocalDatasourceImpl(),
   );
   sl.registerLazySingleton<ChatRemoteDatasource>(
-    () => ChatRemoteDatasourceImpl(apiClient: sl()),
+    () => ChatRemoteDatasourceImpl(model: model),
   );
 
   // Repository

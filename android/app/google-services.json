@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "379941987155",
+    "project_id": "kanachat-1b4f7",
+    "storage_bucket": "kanachat-1b4f7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379941987155:android:93c2082075e246f24db7a6",
+        "android_client_info": {
+          "package_name": "id.sofyan.kanachat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1qPPv_PAT8xE4jX2hqdRO3NF1Csozu8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
