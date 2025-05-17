@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'kanachat-1b4f7.firebasestorage.app',
     iosBundleId: 'id.sofyan.kanachat',
   );
+
 }

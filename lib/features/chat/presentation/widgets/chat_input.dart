@@ -126,10 +126,11 @@ class _ChatInputState extends State<ChatInput> {
             children: [
               Stack(
                 children: [
-                  Expanded(
-                    child: BlocBuilder<AppThemeCubit, AppThemeEntity>(
-                      builder: (context, state) {
-                        return TextField(
+                  BlocBuilder<AppThemeCubit, AppThemeEntity>(
+                    builder: (context, state) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: TextField(
                           minLines: 1,
                           maxLines: 4,
                           controller: _inputChatController,
@@ -160,9 +161,9 @@ class _ChatInputState extends State<ChatInput> {
                           onTapOutside: (event) {
                             FocusScope.of(context).unfocus();
                           },
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                   Positioned(
                     right: 0,
