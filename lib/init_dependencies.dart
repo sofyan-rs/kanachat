@@ -18,6 +18,7 @@ import 'package:kanachat/features/chat/domain/usecases/chat_message/store_chat.d
 import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
+import 'package:kanachat/features/chat/presentation/bloc/chat_typing_cubit/chat_typing_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/current_history_cubit/current_history_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/post_chat_bloc/post_chat_bloc.dart';
 import 'package:kanachat/features/customization/data/datasources/local/chat_customization_local_datasource.dart';
@@ -103,6 +104,7 @@ void _initChat() {
 
   // Bloc
   sl.registerLazySingleton(() => CurrentHistoryCubit());
+  sl.registerLazySingleton(() => ChatTypingCubit());
   sl.registerLazySingleton(
     () => ChatHistoryBloc(
       getChatHistoryList: sl(),

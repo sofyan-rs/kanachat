@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanachat/core/utils/string_formatter.dart';
 import 'package:kanachat/features/chat/domain/entities/chat_message_entity.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
+import 'package:kanachat/features/chat/presentation/bloc/chat_typing_cubit/chat_typing_cubit.dart';
 import 'package:kanachat/features/chat/presentation/widgets/chat_bubble.dart';
 import 'package:kanachat/features/chat/presentation/widgets/start_chat.dart';
 
@@ -35,6 +36,9 @@ class _ChatListState extends State<ChatList> {
               childrenDelegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final chat = state[state.length - 1 - index];
+                  final isTyping = context.read<ChatTypingCubit>().state;
+                  final isLastChat = chat == state.last;
+
                   return ChatBubble(
                     key: ValueKey(chat.id),
                     message:
@@ -45,7 +49,7 @@ class _ChatListState extends State<ChatList> {
                             ),
                     isMe: chat.isUser,
                     time: chat.createdAt,
-                    isTyping: chat.isUser == false && state.length - 1 == index,
+                    isTyping: chat.isUser == false && isTyping && isLastChat,
                   );
                 },
                 childCount: state.length,

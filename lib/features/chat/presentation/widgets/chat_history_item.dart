@@ -6,6 +6,7 @@ import 'package:kanachat/features/chat/domain/entities/chat_history_entity.dart'
 import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
+import 'package:kanachat/features/chat/presentation/bloc/chat_typing_cubit/chat_typing_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/current_history_cubit/current_history_cubit.dart';
 
 class ChatHistoryItem extends StatelessWidget {
@@ -16,6 +17,8 @@ class ChatHistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void checkHistoryChat(ChatHistoryEntity chatHistory) {
+      // Set typing to false
+      context.read<ChatTypingCubit>().setTyping(false);
       // Clear previous messages
       context.read<ChatMessagesCubit>().clearMessages();
       // Set current history

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanachat/core/common/bloc/app_theme_cubit/app_theme_cubit.dart';
 import 'package:kanachat/core/common/entities/app_theme_entity.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
+import 'package:kanachat/features/chat/presentation/bloc/chat_typing_cubit/chat_typing_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/current_history_cubit/current_history_cubit.dart';
 import 'package:kanachat/features/chat/presentation/widgets/chat_input.dart';
 import 'package:kanachat/features/chat/presentation/widgets/chat_list.dart';
@@ -68,6 +69,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                   state.isDarkMode ? SolarIconsBold.moon : SolarIconsBold.sun,
                 ),
                 onPressed: () {
+                  context.read<ChatTypingCubit>().setTyping(false);
                   context.read<AppThemeCubit>().toggleTheme();
                 },
               );

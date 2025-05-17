@@ -12,6 +12,7 @@ import 'package:kanachat/features/chat/domain/entities/chat_message_entity.dart'
 import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
+import 'package:kanachat/features/chat/presentation/bloc/chat_typing_cubit/chat_typing_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/current_history_cubit/current_history_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/post_chat_bloc/post_chat_bloc.dart';
 import 'package:kanachat/features/customization/domain/entities/chat_customization_entity.dart';
@@ -213,7 +214,7 @@ class _ChatInputState extends State<ChatInput> {
                                   ),
                                 );
                           }
-                          // context.read<ChatTypingCubit>().setTyping(true);
+                          context.read<ChatTypingCubit>().setTyping(true);
                         }
                       },
                       child: FilledButton(
