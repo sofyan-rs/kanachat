@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanachat/core/utils/string_formatter.dart';
@@ -47,10 +45,7 @@ class _ChatListState extends State<ChatList> {
                             ),
                     isMe: chat.isUser,
                     time: chat.createdAt,
-                    isTyping: false,
-                    // isTyping:
-                    //     chatSortedByDate[index].isUser == false &&
-                    //     chatSortedByDate.length - 1 == index,
+                    isTyping: chat.isUser == false && state.length - 1 == index,
                   );
                 },
                 childCount: state.length,

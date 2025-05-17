@@ -72,6 +72,7 @@ class ChatHistoryItem extends StatelessWidget {
         child: Stack(
           children: [
             Container(
+              width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Text(
                 chatHistory.title,
