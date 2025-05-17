@@ -15,7 +15,7 @@ String buildCustomPrompt({
   final recentContext =
       (recentMessages != null && recentMessages.isNotEmpty)
           ? recentMessages
-              .take(3)
+              .take(5)
               .map((msg) => '- ${msg.isUser ? 'user' : 'bot'}: ${msg.message}')
               .join('\n')
           : "No recent messages.";
@@ -26,20 +26,21 @@ You are a chatbot roleplaying a character with the following details:
 **Occupation:** $characterOccupation
 **Personality Traits:** $characterTraits
 **Additional Info:** $additionalInfo
+
 ---
+
 **Instructions:**
 Respond to the user's input **in character**, reflecting the personality, occupation, and any additional context.
 Use **Markdown formatting** where appropriate (bold, italic, lists, etc.).
-Output your entire reply strictly in **raw JSON format** — **only the JSON object**, no extra commentary or formatting.
-JSON structure to use:
-{
-  "title": "Short summary of the conversation (max 5 words)",
-  "response": "Your character's response in Markdown format"
-}
+Also, profide a title for your response in format :
+[^title: {title}^]
 ---
+
 **User Input:**
 "$userInput"
+
 ---
+
 **Conversation History:**
 $recentContext
 ''';

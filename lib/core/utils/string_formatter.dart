@@ -1,10 +1,13 @@
 class StringFormatter {
-  String cleanJsonOutput(String input) {
-    final jsonRegex = RegExp(
-      r'```(?:json)?\s*([\s\S]*?)\s*```',
-      caseSensitive: false,
-    );
-    final match = jsonRegex.firstMatch(input);
-    return match != null ? match.group(1)!.trim() : input.trim();
+  String? extractTitle(String input) {
+    final regex = RegExp(r'\[\^title:\s*(.*?)\^\]');
+    final match = regex.firstMatch(input);
+    return match?.group(1);
+  }
+
+  String extractResponseWithoutTitle(String input) {
+    final regex = RegExp(r'\[\^title:\s*(.*?)\^\]');
+    String cleaned = input.replaceFirst(regex, '').trim();
+    return cleaned;
   }
 }

@@ -73,10 +73,11 @@ class ChatHistoryItem extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  Text(chatHistory.title, style: const TextStyle(fontSize: 16)),
-                ],
+              child: Text(
+                chatHistory.title,
+                style: const TextStyle(fontSize: 16),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             Positioned.fill(

@@ -196,11 +196,7 @@ class _ChatInputState extends State<ChatInput> {
                           // Update chat history title if it is 'New Chat'
                           if (chatHistory.title == 'New Chat') {
                             final newTitle =
-                                JsonDecoder().convert(
-                                  StringFormatter().cleanJsonOutput(
-                                    state.message,
-                                  ),
-                                )['title'] ??
+                                StringFormatter().extractTitle(state.message) ??
                                 'New Chat';
                             context.read<ChatHistoryBloc>().add(
                               ChatHistoryUpdated(

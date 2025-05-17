@@ -1,5 +1,5 @@
 name: kanachat
-description: "A new Flutter project."
+description: "An Open Source ChatBot Application with GeminiAPI build with Flutter."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 

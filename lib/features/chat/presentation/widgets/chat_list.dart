@@ -42,9 +42,9 @@ class _ChatListState extends State<ChatList> {
                     message:
                         chat.isUser
                             ? chat.message
-                            : JsonDecoder().convert(
-                              StringFormatter().cleanJsonOutput(chat.message),
-                            )['response'],
+                            : StringFormatter().extractResponseWithoutTitle(
+                              chat.message,
+                            ),
                     isMe: chat.isUser,
                     time: chat.createdAt,
                     isTyping: false,
