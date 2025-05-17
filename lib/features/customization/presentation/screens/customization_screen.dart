@@ -15,6 +15,7 @@ class CustomizationScreen extends StatefulWidget {
 }
 
 class _CustomizationScreenState extends State<CustomizationScreen> {
+  // Form customization
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _occupationController = TextEditingController();
@@ -23,13 +24,15 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
       TextEditingController();
 
   void _onSave() {
+    // Validate form
     if (_formKey.currentState!.validate()) {
+      // Get values from controllers
       final name = _nameController.text.trim();
       final occupation = _occupationController.text.trim();
       final traits = _traitsController.text.trim();
       final additionalInfo = _additionalInfoController.text.trim();
 
-      // Save customization
+      // Save customization using Bloc
       context.read<ChatCustomizationBloc>().add(
         ChatCustomizationUpdated(
           customization: ChatCustomizationEntity(
@@ -45,12 +48,14 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
 
   @override
   void initState() {
+    // Get initial customization data
     context.read<ChatCustomizationBloc>().add(ChatCustomizationRequested());
     super.initState();
   }
 
   @override
   void dispose() {
+    // Dispose controllers
     _nameController.dispose();
     _occupationController.dispose();
     _traitsController.dispose();
@@ -106,6 +111,7 @@ class _CustomizationScreenState extends State<CustomizationScreen> {
               BlocConsumer<ChatCustomizationBloc, ChatCustomizationState>(
                 listener: (context, state) {
                   if (state is ChatCustomizationLoaded) {
+                    // Populate the form with existing customization data
                     final customization = state.customization;
                     _nameController.text = customization.name ?? '';
                     _occupationController.text = customization.occupation ?? '';

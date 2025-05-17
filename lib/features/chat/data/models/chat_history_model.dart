@@ -5,6 +5,7 @@ class ChatHistoryModel extends ChatHistoryEntity {
     required super.id,
     required super.title,
     required super.createdAt,
+    required super.modifiedAt,
   });
 
   factory ChatHistoryModel.fromJson(Map<String, dynamic> json) {
@@ -12,6 +13,7 @@ class ChatHistoryModel extends ChatHistoryEntity {
       id: json['id'] as String,
       title: json['title'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
+      modifiedAt: DateTime.parse(json['modified_at'] as String),
     );
   }
 
@@ -20,6 +22,7 @@ class ChatHistoryModel extends ChatHistoryEntity {
       'id': id,
       'title': title,
       'created_at': createdAt.toIso8601String(),
+      'modified_at': modifiedAt.toIso8601String(),
     };
   }
 
@@ -28,6 +31,7 @@ class ChatHistoryModel extends ChatHistoryEntity {
       id: entity.id,
       title: entity.title,
       createdAt: entity.createdAt,
+      modifiedAt: entity.modifiedAt,
     );
   }
 }

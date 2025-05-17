@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanachat/core/common/bloc/app_theme_cubit/app_theme_cubit.dart';
 import 'package:kanachat/core/common/entities/app_theme_entity.dart';
-import 'package:kanachat/core/db/local_database.dart';
-import 'package:kanachat/features/chat/domain/entities/chat_history_entity.dart';
-import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_list_bloc/chat_list_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/current_history_cubit/current_history_cubit.dart';
 import 'package:kanachat/features/chat/presentation/widgets/chat_input.dart';
 import 'package:kanachat/features/chat/presentation/widgets/chat_list.dart';
 import 'package:kanachat/features/chat/presentation/widgets/more_menu.dart';
+import 'package:kanachat/features/customization/presentation/bloc/chat_customization_bloc.dart';
 import 'package:solar_icons/solar_icons.dart';
 
 class ChattingScreen extends StatefulWidget {
@@ -22,21 +20,24 @@ class ChattingScreen extends StatefulWidget {
 class _ChattingScreenState extends State<ChattingScreen> {
   @override
   void initState() {
+    // Load chat history
     final chatHistory = context.read<CurrentHistoryCubit>().state;
-    if (chatHistory.id == '') {
-      final chatHistory = ChatHistoryEntity(
-        id: LocalDatabase.generateUuid(),
-        title: 'New Chat',
-        createdAt: DateTime.now(),
-      );
-      context.read<ChatHistoryBloc>().add(
-        ChatHistoryStored(chatHistory: chatHistory),
-      );
-      context.read<CurrentHistoryCubit>().setCurrentHistory(chatHistory);
-    }
+    // if (chatHistory.id == '') {
+    //   final chatHistory = ChatHistoryEntity(
+    //     id: LocalDatabase.generateUuid(),
+    //     title: 'New Chat',
+    //     createdAt: DateTime.now(),
+    //   );
+    //   context.read<ChatHistoryBloc>().add(
+    //     ChatHistoryStored(chatHistory: chatHistory),
+    //   );
+    //   context.read<CurrentHistoryCubit>().setCurrentHistory(chatHistory);
+    // }
     context.read<ChatListBloc>().add(
       ChatListRequested(chatHistoryId: chatHistory.id),
     );
+    // Load chat customization
+    context.read<ChatCustomizationBloc>().add(ChatCustomizationRequested());
     super.initState();
   }
 

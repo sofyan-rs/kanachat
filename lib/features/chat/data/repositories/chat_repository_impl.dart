@@ -134,4 +134,20 @@ class ChatRepositoryImpl implements ChatRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, ChatHistoryEntity>> updateChatHistory({
+    required String chatHistoryId,
+    required String newTitle,
+  }) async {
+    try {
+      final response = await chatLocalDatasource.updateChatHistory(
+        chatHistoryId: chatHistoryId,
+        newTitle: newTitle,
+      );
+      return Right(response);
+    } on LocalException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

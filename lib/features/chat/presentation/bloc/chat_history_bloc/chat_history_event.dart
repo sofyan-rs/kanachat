@@ -16,3 +16,10 @@ final class ChatHistoryDeleted extends ChatHistoryEvent {
 
   ChatHistoryDeleted({required this.chatHistoryId});
 }
+
+final class ChatHistoryUpdated extends ChatHistoryEvent {
+  final String chatHistoryId;
+  final String newTitle;
+
+  ChatHistoryUpdated({required this.chatHistoryId, required this.newTitle});
+}

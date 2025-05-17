@@ -24,7 +24,6 @@ class ChatCustomizationLocalDatasourceImpl
         where: 'key = ?',
         whereArgs: ['customization'],
       );
-      // print(jsonDecode(result.first['value'] as String));
       if (result.isNotEmpty) {
         return ChatCustomizationModel.fromJson(
           jsonDecode(result.first['value'] as String),

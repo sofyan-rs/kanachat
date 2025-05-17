@@ -10,8 +10,8 @@ import 'package:kanachat/features/chat/domain/repository/chat_repository.dart';
 import 'package:kanachat/features/chat/domain/usecases/chat_history/delete_chat_history.dart';
 import 'package:kanachat/features/chat/domain/usecases/chat_history/get_chat_history_list.dart';
 import 'package:kanachat/features/chat/domain/usecases/chat_history/store_chat_history.dart';
+import 'package:kanachat/features/chat/domain/usecases/chat_history/update_chat_history.dart';
 import 'package:kanachat/features/chat/domain/usecases/chat_message/clear_chat_list.dart';
-import 'package:kanachat/features/chat/domain/usecases/chat_message/get_chat_list.dart';
 import 'package:kanachat/features/chat/domain/usecases/chat_message/get_chat_list_by_history_id.dart';
 import 'package:kanachat/features/chat/domain/usecases/chat_message/post_chat.dart';
 import 'package:kanachat/features/chat/domain/usecases/chat_message/store_chat.dart';
@@ -98,6 +98,7 @@ void _initChat() {
   // Chat history
   sl.registerLazySingleton(() => GetChatHistoryList(sl()));
   sl.registerLazySingleton(() => StoreChatHistory(sl()));
+  sl.registerLazySingleton(() => UpdateChatHistory(sl()));
   sl.registerLazySingleton(() => DeleteChatHistory(sl()));
 
   // Bloc
@@ -106,6 +107,7 @@ void _initChat() {
     () => ChatHistoryBloc(
       getChatHistoryList: sl(),
       storeChatHistory: sl(),
+      updateChatHistory: sl(),
       deleteChatHistory: sl(),
     ),
   );

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kanachat/core/db/local_database.dart';
 import 'package:kanachat/core/router/app_router.dart';
-import 'package:kanachat/features/chat/domain/entities/chat_history_entity.dart';
-import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/current_history_cubit/current_history_cubit.dart';
 import 'package:solar_icons/solar_icons.dart';
@@ -43,19 +40,20 @@ class MoreMenu extends StatelessWidget {
     void newChat() {
       context.read<CurrentHistoryCubit>().clearCurrentHistory();
       context.read<ChatMessagesCubit>().clearMessages();
-      final chatHistory = ChatHistoryEntity(
-        id: LocalDatabase.generateUuid(),
-        title: 'New Chat',
-        createdAt: DateTime.now(),
-      );
-      context.read<ChatHistoryBloc>().add(
-        ChatHistoryStored(chatHistory: chatHistory),
-      );
-      print(chatHistory.id);
-      context.read<CurrentHistoryCubit>().setCurrentHistory(chatHistory);
+      // final chatHistory = ChatHistoryEntity(
+      //   id: LocalDatabase.generateUuid(),
+      //   title: 'New Chat',
+      //   createdAt: DateTime.now(),
+      // );
+      // context.read<ChatHistoryBloc>().add(
+      //   ChatHistoryStored(chatHistory: chatHistory),
+      // );
+      // print(chatHistory.id);
+      // context.read<CurrentHistoryCubit>().setCurrentHistory(chatHistory);
     }
 
     return PopupMenuButton(
+      icon: const Icon(Icons.more_vert),
       itemBuilder: (context) {
         return [
           PopupMenuItem(

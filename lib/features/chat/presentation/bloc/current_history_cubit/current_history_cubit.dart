@@ -5,6 +5,7 @@ final initChatHistory = ChatHistoryEntity(
   id: '',
   title: '',
   createdAt: DateTime.now(),
+  modifiedAt: DateTime.now(),
 );
 
 class CurrentHistoryCubit extends Cubit<ChatHistoryEntity> {

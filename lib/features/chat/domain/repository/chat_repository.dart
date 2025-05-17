@@ -27,5 +27,9 @@ abstract class ChatRepository {
   Future<Either<Failure, ChatHistoryEntity>> storeChatHistory({
     required ChatHistoryEntity chatHistory,
   });
+  Future<Either<Failure, ChatHistoryEntity>> updateChatHistory({
+    required String chatHistoryId,
+    required String newTitle,
+  });
   Future<Either<Failure, void>> clearChatHistoryList();
 }

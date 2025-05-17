@@ -10,7 +10,6 @@ abstract interface class ChatLocalDatasource {
     required ChatMessageModel chatMessage,
   });
   Future<void> clearChatMessageList();
-
   Future<List<ChatHistoryModel>> getChatHistoryList();
   Future<List<ChatMessageModel>> getChatMessageListByChatHistoryId({
     required String chatHistoryId,
@@ -18,10 +17,10 @@ abstract interface class ChatLocalDatasource {
   Future<ChatHistoryModel> storeChatHistory({
     required ChatHistoryModel chatHistory,
   });
-  // Future<ChatHistoryModel> updateChatHistory({
-  //   required String chatHistoryId,
-  //   required String title,
-  // });
+  Future<ChatHistoryModel> updateChatHistory({
+    required String chatHistoryId,
+    required String newTitle,
+  });
   Future<void> clearChatHistoryList();
   Future<void> deleteChatHistory({required String chatHistoryId});
 }
@@ -111,14 +110,14 @@ class ChatLocalDatasourceImpl implements ChatLocalDatasource {
     required String chatHistoryId,
   }) async {
     try {
-      print(chatHistoryId);
+      // print(chatHistoryId);
       final db = await LocalDatabase.database;
       final result = await db.query(
         'chat_message',
         where: 'chat_history_id = ?',
         whereArgs: [chatHistoryId],
       );
-      print(result);
+      // print(result);
       return result.map((e) => ChatMessageModel.fromJson(e)).toList();
     } catch (e) {
       throw LocalException(
@@ -144,27 +143,27 @@ class ChatLocalDatasourceImpl implements ChatLocalDatasource {
     }
   }
 
-  // @override
-  // Future<ChatHistoryModel> updateChatHistory({
-  //   required String chatHistoryId,
-  //   required String title,
-  // }) async {
-  //   try {
-  //     final db = await LocalDatabase.database;
-  //     await db.update(
-  //       'chat_history',
-  //       {'title': title},
-  //       where: 'id = ?',
-  //       whereArgs: [chatHistoryId],
-  //     );
-  //     final result = await db.query(
-  //       'chat_history',
-  //       where: 'id = ?',
-  //       whereArgs: [chatHistoryId],
-  //     );
-  //     return ChatHistoryModel.fromJson(result.first);
-  //   } catch (e) {
-  //     throw LocalException('Failed to update chat history: $e');
-  //   }
-  // }
+  @override
+  Future<ChatHistoryModel> updateChatHistory({
+    required String chatHistoryId,
+    required String newTitle,
+  }) async {
+    try {
+      final db = await LocalDatabase.database;
+      await db.update(
+        'chat_history',
+        {'title': newTitle, 'modified_at': DateTime.now().toIso8601String()},
+        where: 'id = ?',
+        whereArgs: [chatHistoryId],
+      );
+      final result = await db.query(
+        'chat_history',
+        where: 'id = ?',
+        whereArgs: [chatHistoryId],
+      );
+      return ChatHistoryModel.fromJson(result.first);
+    } catch (e) {
+      throw LocalException('Failed to update chat history: $e');
+    }
+  }
 }

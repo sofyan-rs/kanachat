@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanachat/core/common/bloc/app_theme_cubit/app_theme_cubit.dart';
@@ -30,34 +31,69 @@ class _ChatInputState extends State<ChatInput> {
   final _inputChatController = TextEditingController();
 
   void _onSendMessage() {
+    // Check current history
     final chatHistory = context.read<CurrentHistoryCubit>().state;
-    print(chatHistory.id);
+    var chatHistoryId = chatHistory.id;
+    // If current history is empty, create a new one
+    if (chatHistoryId == '') {
+      if (kDebugMode) {
+        print('chatHistoryId 1: $chatHistoryId');
+      }
+      final chatHistory = ChatHistoryEntity(
+        id: LocalDatabase.generateUuid(),
+        title: 'New Chat',
+        createdAt: DateTime.now(),
+        modifiedAt: DateTime.now(),
+      );
+      chatHistoryId = chatHistory.id;
+      context.read<ChatHistoryBloc>().add(
+        ChatHistoryStored(chatHistory: chatHistory),
+      );
+      context.read<CurrentHistoryCubit>().setCurrentHistory(chatHistory);
+    }
+    // Load chat customization
     context.read<ChatCustomizationBloc>().add(ChatCustomizationRequested());
-    final customization = context.read<ChatCustomizationBloc>().state;
+    // Check if input is not empty
     if (_inputChatController.text.isNotEmpty) {
+      final inputChat = _inputChatController.text.trim();
+      // Create a new message
+      if (kDebugMode) {
+        print('chatHistoryId 2: $chatHistoryId');
+      }
       final message = ChatMessageEntity(
         id: LocalDatabase.generateUuid(),
-        message: _inputChatController.text.trim(),
+        message: inputChat,
         isUser: true,
         createdAt: DateTime.now(),
-        chatHistoryId: chatHistory.id,
+        modifiedAt: DateTime.now(),
+        chatHistoryId: chatHistoryId,
       );
+      if (kDebugMode) {
+        print('chatHistoryId 3: ${message.chatHistoryId}');
+      }
+      // Add message to chat history
       context.read<ChatListBloc>().add(ChatListMessageAdded(message: message));
+      // Get reply from the chat bot
+      // Check if customization is loaded
+      final customizationState = context.read<ChatCustomizationBloc>().state;
+      final customization =
+          customizationState is ChatCustomizationLoaded
+              ? customizationState.customization
+              : ChatCustomizationEntity(
+                name: null,
+                occupation: null,
+                traits: null,
+                additionalInfo: null,
+              );
+      // Send message to the chat bot
       context.read<PostChatBloc>().add(
         PostChatRequested(
-          userInput: _inputChatController.text.trim(),
-          customization:
-              customization is ChatCustomizationLoaded
-                  ? customization.customization
-                  : ChatCustomizationEntity(
-                    name: null,
-                    occupation: null,
-                    traits: null,
-                    additionalInfo: null,
-                  ),
+          userInput: inputChat,
+          customization: customization,
           chatHistory: context.read<ChatMessagesCubit>().state,
         ),
       );
+      // Clear input field
       _inputChatController.clear();
     }
   }
@@ -128,13 +164,11 @@ class _ChatInputState extends State<ChatInput> {
                   if (state is ChatListError) {
                     showSnackBar(context: context, message: state.message);
                   }
-                  if (state is ChatListLoaded) {
-                    // _goToBottom();
-                  }
                 },
                 child: BlocListener<PostChatBloc, PostChatState>(
                   listener: (context, state) {
                     if (state is PostChatSuccess) {
+                      // Add message from bot to chat history
                       final chatHistory =
                           context.read<CurrentHistoryCubit>().state;
 
@@ -145,29 +179,34 @@ class _ChatInputState extends State<ChatInput> {
                             message: state.message,
                             isUser: false,
                             createdAt: DateTime.now(),
+                            modifiedAt: DateTime.now(),
                             chatHistoryId: chatHistory.id,
                           ),
                         ),
                       );
 
+                      // Update chat history title if it is 'New Chat'
                       if (chatHistory.title == 'New Chat') {
+                        final newTitle =
+                            JsonDecoder().convert(
+                              StringFormatter().cleanJsonOutput(state.message),
+                            )['title'] ??
+                            'New Chat';
                         context.read<ChatHistoryBloc>().add(
-                          ChatHistoryStored(
-                            chatHistory: ChatHistoryEntity(
-                              id: chatHistory.id,
-                              title:
-                                  JsonDecoder().convert(
-                                    StringFormatter().cleanJsonOutput(
-                                      state.message,
-                                    ),
-                                  )['title'] ??
-                                  'New Chat',
-                              createdAt: DateTime.now(),
-                            ),
+                          ChatHistoryUpdated(
+                            chatHistoryId: chatHistory.id,
+                            newTitle: newTitle,
+                          ),
+                        );
+                        context.read<CurrentHistoryCubit>().setCurrentHistory(
+                          ChatHistoryEntity(
+                            id: chatHistory.id,
+                            title: newTitle,
+                            createdAt: chatHistory.createdAt,
+                            modifiedAt: DateTime.now(),
                           ),
                         );
                       }
-
                       // context.read<ChatTypingCubit>().setTyping(true);
                     }
                   },
