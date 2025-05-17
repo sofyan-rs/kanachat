@@ -74,6 +74,7 @@ class _ChatListState extends State<ChatList> {
                   final val = state.indexWhere(
                     (chat) => chat.id.toString() == valueKey.value,
                   );
+                  if (val == -1) return null;
                   return state.length - 1 - val;
                 },
               ),
