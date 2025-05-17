@@ -17,6 +17,22 @@ class ChatList extends StatefulWidget {
 class _ChatListState extends State<ChatList> {
   final _chatScrollController = ScrollController();
 
+  void _onScrollToTop() {
+    // when user scroll to top set typing to false
+    if (_chatScrollController.position.atEdge) {
+      if (_chatScrollController.position.pixels == 0) {
+        context.read<ChatTypingCubit>().setTyping(false);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    // Listen to scroll controller to detect when user scroll to top
+    _chatScrollController.addListener(_onScrollToTop);
+    super.initState();
+  }
+
   @override
   void dispose() {
     _chatScrollController.dispose();

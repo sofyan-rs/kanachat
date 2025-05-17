@@ -73,7 +73,7 @@ void _initCustomization() {
 
 void _initChat() {
   final model = FirebaseVertexAI.instance.generativeModel(
-    model: 'gemini-2.5-flash',
+    model: 'gemini-2.0-flash',
   );
 
   // Data sources

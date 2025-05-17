@@ -107,55 +107,54 @@ class _ChatInputState extends State<ChatInput> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        LinearProgressIndicator(
-          value:
-              context.watch<PostChatBloc>().state is PostChatLoading ? null : 0,
-          color: Theme.of(context).colorScheme.primary,
-          backgroundColor: Theme.of(context).colorScheme.surface,
+        BlocBuilder<AppThemeCubit, AppThemeEntity>(
+          builder: (context, state) {
+            return LinearProgressIndicator(
+              value:
+                  context.watch<PostChatBloc>().state is PostChatLoading
+                      ? null
+                      : 0,
+              color: Theme.of(context).colorScheme.primary,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+            );
+          },
         ),
         Container(
           color: Theme.of(context).colorScheme.surface,
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              Row(
+              Stack(
                 children: [
                   Expanded(
                     child: BlocBuilder<AppThemeCubit, AppThemeEntity>(
                       builder: (context, state) {
                         return TextField(
+                          minLines: 1,
+                          maxLines: 4,
                           controller: _inputChatController,
                           decoration: InputDecoration(
                             hintText: 'Type a message...',
                             fillColor:
                                 state.isDarkMode
-                                    ? AppColors.darkBackground
-                                    : AppColors.lightBackground,
+                                    ? AppColors.darkSurface
+                                    : AppColors.lightSurface,
                             filled: true,
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(50),
-                              ),
+                              borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none,
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(50),
-                              ),
-                              borderSide: BorderSide(
-                                color: AppColors.primary,
-                                width: 1.5,
-                              ),
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(50),
-                              ),
+                              borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none,
                             ),
                             contentPadding: EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 20,
+                              vertical: 18,
+                              horizontal: 16,
                             ),
                           ),
                           onTapOutside: (event) {
@@ -165,73 +164,81 @@ class _ChatInputState extends State<ChatInput> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  BlocListener<ChatListBloc, ChatListState>(
-                    listener: (context, state) {
-                      if (state is ChatListError) {
-                        showSnackBar(context: context, message: state.message);
-                      }
-                    },
-                    child: BlocListener<PostChatBloc, PostChatState>(
+                  Positioned(
+                    right: 0,
+                    bottom: 4,
+                    child: BlocListener<ChatListBloc, ChatListState>(
                       listener: (context, state) {
-                        if (state is PostChatSuccess) {
-                          // Add message from bot to chat history
-                          final chatHistory =
-                              context.read<CurrentHistoryCubit>().state;
-
-                          context.read<ChatListBloc>().add(
-                            ChatListMessageAdded(
-                              message: ChatMessageEntity(
-                                id: LocalDatabase.generateUuid(),
-                                message: state.message,
-                                isUser: false,
-                                createdAt: DateTime.now(),
-                                modifiedAt: DateTime.now(),
-                                chatHistoryId: chatHistory.id,
-                              ),
-                            ),
+                        if (state is ChatListError) {
+                          showSnackBar(
+                            context: context,
+                            message: state.message,
                           );
-
-                          // Update chat history title if it is 'New Chat'
-                          if (chatHistory.title == 'New Chat') {
-                            final newTitle =
-                                StringFormatter().extractTitle(state.message) ??
-                                'New Chat';
-                            context.read<ChatHistoryBloc>().add(
-                              ChatHistoryUpdated(
-                                chatHistoryId: chatHistory.id,
-                                newTitle: newTitle,
-                              ),
-                            );
-                            context
-                                .read<CurrentHistoryCubit>()
-                                .setCurrentHistory(
-                                  ChatHistoryEntity(
-                                    id: chatHistory.id,
-                                    title: newTitle,
-                                    createdAt: chatHistory.createdAt,
-                                    modifiedAt: DateTime.now(),
-                                  ),
-                                );
-                          }
-                          context.read<ChatTypingCubit>().setTyping(true);
                         }
                       },
-                      child: FilledButton(
-                        style: FilledButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          shape: const CircleBorder(),
-                          padding: const EdgeInsets.all(16),
+                      child: BlocListener<PostChatBloc, PostChatState>(
+                        listener: (context, state) {
+                          if (state is PostChatSuccess) {
+                            // Add message from bot to chat history
+                            final chatHistory =
+                                context.read<CurrentHistoryCubit>().state;
+
+                            context.read<ChatListBloc>().add(
+                              ChatListMessageAdded(
+                                message: ChatMessageEntity(
+                                  id: LocalDatabase.generateUuid(),
+                                  message: state.message,
+                                  isUser: false,
+                                  createdAt: DateTime.now(),
+                                  modifiedAt: DateTime.now(),
+                                  chatHistoryId: chatHistory.id,
+                                ),
+                              ),
+                            );
+
+                            // Update chat history title if it is 'New Chat'
+                            if (chatHistory.title == 'New Chat') {
+                              final newTitle =
+                                  StringFormatter().extractTitle(
+                                    state.message,
+                                  ) ??
+                                  'New Chat';
+                              context.read<ChatHistoryBloc>().add(
+                                ChatHistoryUpdated(
+                                  chatHistoryId: chatHistory.id,
+                                  newTitle: newTitle,
+                                ),
+                              );
+                              context
+                                  .read<CurrentHistoryCubit>()
+                                  .setCurrentHistory(
+                                    ChatHistoryEntity(
+                                      id: chatHistory.id,
+                                      title: newTitle,
+                                      createdAt: chatHistory.createdAt,
+                                      modifiedAt: DateTime.now(),
+                                    ),
+                                  );
+                            }
+                            context.read<ChatTypingCubit>().setTyping(true);
+                          }
+                        },
+                        child: FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            shape: const CircleBorder(),
+                            padding: const EdgeInsets.all(16),
+                          ),
+                          onPressed: _onSendMessage,
+                          child: Icon(SolarIconsOutline.plain3, size: 20),
                         ),
-                        onPressed: _onSendMessage,
-                        child: Icon(SolarIconsOutline.plain3, size: 20),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 8),
             ],
           ),
         ),

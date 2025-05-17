@@ -19,7 +19,6 @@ import 'package:kanachat/features/customization/presentation/bloc/chat_customiza
 import 'package:kanachat/firebase_options.dart';
 import 'package:kanachat/init_dependencies.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:firebase_vertexai/firebase_vertexai.dart';
 
 void main() async {
   await dotenv.load();
@@ -32,21 +31,6 @@ void main() async {
   );
   // Initialize firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  // Initialize Firebase Vertex AI
-  // Initialize the Vertex AI service and create a `GenerativeModel` instance
-  // Specify a model that supports your use case
-  final model = FirebaseVertexAI.instance.generativeModel(
-    model: 'gemini-2.0-flash',
-  );
-
-  // Provide a prompt that contains text
-  final prompt = [Content.text('Write a story about a magic backpack.')];
-
-  // To generate text output, call generateContent with the text input
-  final response = await model.generateContent(prompt);
-  print(response.text);
-
   // Initialize dependencies
   await initDependencies();
   SystemChrome.setPreferredOrientations([
