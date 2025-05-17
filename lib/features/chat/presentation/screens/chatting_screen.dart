@@ -49,7 +49,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
         title: Row(
           children: [
             Icon(
-              SolarIconsOutline.chatRoundDots,
+              SolarIconsOutline.chatRoundLine,
               size: 24,
               color: Theme.of(context).colorScheme.primary,
             ),

@@ -13,7 +13,7 @@ class StartChat extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
-              SolarIconsOutline.chatRoundDots,
+              SolarIconsOutline.chatRoundLine,
               size: 70,
               color: Theme.of(context).colorScheme.primary,
             ),

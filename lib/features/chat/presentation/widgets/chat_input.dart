@@ -117,110 +117,126 @@ class _ChatInputState extends State<ChatInput> {
         Container(
           color: Theme.of(context).colorScheme.surface,
           padding: const EdgeInsets.all(16),
-          child: Row(
+          child: Column(
             children: [
-              Expanded(
-                child: BlocBuilder<AppThemeCubit, AppThemeEntity>(
-                  builder: (context, state) {
-                    return TextField(
-                      controller: _inputChatController,
-                      decoration: InputDecoration(
-                        hintText: 'Type a message...',
-                        fillColor:
-                            state.isDarkMode
-                                ? AppColors.darkBackground
-                                : AppColors.lightBackground,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                          borderSide: BorderSide.none,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
-                            width: 1.5,
+              Row(
+                children: [
+                  Expanded(
+                    child: BlocBuilder<AppThemeCubit, AppThemeEntity>(
+                      builder: (context, state) {
+                        return TextField(
+                          controller: _inputChatController,
+                          decoration: InputDecoration(
+                            hintText: 'Type a message...',
+                            fillColor:
+                                state.isDarkMode
+                                    ? AppColors.darkBackground
+                                    : AppColors.lightBackground,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              ),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              ),
+                              borderSide: BorderSide(
+                                color: AppColors.primary,
+                                width: 1.5,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(50),
+                              ),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 20,
+                            ),
                           ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 20,
-                        ),
-                      ),
-                      onTapOutside: (event) {
-                        FocusScope.of(context).unfocus();
+                          onTapOutside: (event) {
+                            FocusScope.of(context).unfocus();
+                          },
+                        );
                       },
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(width: 8),
-              BlocListener<ChatListBloc, ChatListState>(
-                listener: (context, state) {
-                  if (state is ChatListError) {
-                    showSnackBar(context: context, message: state.message);
-                  }
-                },
-                child: BlocListener<PostChatBloc, PostChatState>(
-                  listener: (context, state) {
-                    if (state is PostChatSuccess) {
-                      // Add message from bot to chat history
-                      final chatHistory =
-                          context.read<CurrentHistoryCubit>().state;
-
-                      context.read<ChatListBloc>().add(
-                        ChatListMessageAdded(
-                          message: ChatMessageEntity(
-                            id: LocalDatabase.generateUuid(),
-                            message: state.message,
-                            isUser: false,
-                            createdAt: DateTime.now(),
-                            modifiedAt: DateTime.now(),
-                            chatHistoryId: chatHistory.id,
-                          ),
-                        ),
-                      );
-
-                      // Update chat history title if it is 'New Chat'
-                      if (chatHistory.title == 'New Chat') {
-                        final newTitle =
-                            JsonDecoder().convert(
-                              StringFormatter().cleanJsonOutput(state.message),
-                            )['title'] ??
-                            'New Chat';
-                        context.read<ChatHistoryBloc>().add(
-                          ChatHistoryUpdated(
-                            chatHistoryId: chatHistory.id,
-                            newTitle: newTitle,
-                          ),
-                        );
-                        context.read<CurrentHistoryCubit>().setCurrentHistory(
-                          ChatHistoryEntity(
-                            id: chatHistory.id,
-                            title: newTitle,
-                            createdAt: chatHistory.createdAt,
-                            modifiedAt: DateTime.now(),
-                          ),
-                        );
-                      }
-                      // context.read<ChatTypingCubit>().setTyping(true);
-                    }
-                  },
-                  child: FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      shape: const CircleBorder(),
-                      padding: const EdgeInsets.all(16),
                     ),
-                    onPressed: _onSendMessage,
-                    child: Icon(SolarIconsOutline.plain3, size: 20),
                   ),
-                ),
+                  const SizedBox(width: 8),
+                  BlocListener<ChatListBloc, ChatListState>(
+                    listener: (context, state) {
+                      if (state is ChatListError) {
+                        showSnackBar(context: context, message: state.message);
+                      }
+                    },
+                    child: BlocListener<PostChatBloc, PostChatState>(
+                      listener: (context, state) {
+                        if (state is PostChatSuccess) {
+                          // Add message from bot to chat history
+                          final chatHistory =
+                              context.read<CurrentHistoryCubit>().state;
+
+                          context.read<ChatListBloc>().add(
+                            ChatListMessageAdded(
+                              message: ChatMessageEntity(
+                                id: LocalDatabase.generateUuid(),
+                                message: state.message,
+                                isUser: false,
+                                createdAt: DateTime.now(),
+                                modifiedAt: DateTime.now(),
+                                chatHistoryId: chatHistory.id,
+                              ),
+                            ),
+                          );
+
+                          // Update chat history title if it is 'New Chat'
+                          if (chatHistory.title == 'New Chat') {
+                            final newTitle =
+                                JsonDecoder().convert(
+                                  StringFormatter().cleanJsonOutput(
+                                    state.message,
+                                  ),
+                                )['title'] ??
+                                'New Chat';
+                            context.read<ChatHistoryBloc>().add(
+                              ChatHistoryUpdated(
+                                chatHistoryId: chatHistory.id,
+                                newTitle: newTitle,
+                              ),
+                            );
+                            context
+                                .read<CurrentHistoryCubit>()
+                                .setCurrentHistory(
+                                  ChatHistoryEntity(
+                                    id: chatHistory.id,
+                                    title: newTitle,
+                                    createdAt: chatHistory.createdAt,
+                                    modifiedAt: DateTime.now(),
+                                  ),
+                                );
+                          }
+                          // context.read<ChatTypingCubit>().setTyping(true);
+                        }
+                      },
+                      child: FilledButton(
+                        style: FilledButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                          shape: const CircleBorder(),
+                          padding: const EdgeInsets.all(16),
+                        ),
+                        onPressed: _onSendMessage,
+                        child: Icon(SolarIconsOutline.plain3, size: 20),
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
