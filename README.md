@@ -1,6 +1,6 @@
 # KanaChat
 
-An Open Source ChatBot Application using Google VertexAI build with Flutter.
+An Open Source ChatBot Application using Google Vertex AI build with Flutter.
 
 ## Screenshots
 
