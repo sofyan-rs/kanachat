@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kanachat/core/common/bloc/app_theme_cubit/app_theme_cubit.dart';
 import 'package:kanachat/core/common/entities/app_theme_entity.dart';
 import 'package:kanachat/core/db/local_database.dart';
+import 'package:kanachat/core/extensions/string_extension.dart';
 import 'package:kanachat/core/themes/app_colors.dart';
 import 'package:kanachat/core/utils/show_snackbar.dart';
-import 'package:kanachat/core/utils/string_formatter.dart';
 import 'package:kanachat/features/chat/domain/entities/chat_history_entity.dart';
 import 'package:kanachat/features/chat/domain/entities/chat_message_entity.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
@@ -194,8 +194,7 @@ class _ChatInputState extends State<ChatInput> {
                           // Update chat history title if it is 'New Chat'
                           if (chatHistory.title == 'New Chat') {
                             final newTitle =
-                                StringFormatter().extractTitle(state.message) ??
-                                'New Chat';
+                                state.message.extractTitle ?? 'New Chat';
                             context.read<ChatHistoryBloc>().add(
                               ChatHistoryUpdated(
                                 chatHistoryId: chatHistory.id,

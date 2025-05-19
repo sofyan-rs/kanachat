@@ -6,6 +6,9 @@ class LocalDatabase {
   static Database? _database;
   static const _uuid = Uuid();
 
+  /// Generates a new UUID (version 4)
+  static String generateUuid() => _uuid.v4();
+
   static Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDatabase();
@@ -57,7 +60,4 @@ class LocalDatabase {
       );
     ''');
   }
-
-  /// Generates a new UUID (version 4)
-  static String generateUuid() => _uuid.v4();
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kanachat/core/router/app_router.dart';
 import 'package:kanachat/features/chat/domain/entities/chat_history_entity.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_history_bloc/chat_history_bloc.dart';
@@ -28,7 +29,8 @@ class ChatHistoryItem extends StatelessWidget {
         ChatListRequested(chatHistoryId: chatHistory.id),
       );
       // Navigate to the chat screen
-      AppRouter().navigate(route: '/', context: context, type: NavType.go);
+      context.go('/');
+      // AppRouter().navigate(route: '/', context: context, type: NavType.go);
     }
 
     void deleteChatHistory(

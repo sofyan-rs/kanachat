@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kanachat/core/utils/datetime_formatter.dart';
+import 'package:kanachat/core/extensions/date_time_extension.dart';
 import 'package:kanachat/features/chat/presentation/widgets/typewritter_markdown.dart';
 
 class ChatBubble extends StatelessWidget {
@@ -49,7 +49,7 @@ class ChatBubble extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    DateTimeFormatter.formatDateTime(time),
+                    time.formatDateTime,
                     style: TextStyle(
                       color:
                           isMe

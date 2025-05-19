@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kanachat/core/utils/string_formatter.dart';
+import 'package:kanachat/core/extensions/string_extension.dart';
 import 'package:kanachat/features/chat/domain/entities/chat_message_entity.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_messages_cubit/chat_messages_cubit.dart';
 import 'package:kanachat/features/chat/presentation/bloc/chat_typing_cubit/chat_typing_cubit.dart';
@@ -60,9 +60,7 @@ class _ChatListState extends State<ChatList> {
                     message:
                         chat.isUser
                             ? chat.message
-                            : StringFormatter().extractResponseWithoutTitle(
-                              chat.message,
-                            ),
+                            : chat.message.extractResponseWithoutTitle,
                     isMe: chat.isUser,
                     time: chat.createdAt,
                     isTyping: chat.isUser == false && isTyping && isLastChat,
