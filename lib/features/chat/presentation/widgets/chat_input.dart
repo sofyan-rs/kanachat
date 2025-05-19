@@ -168,10 +168,7 @@ class _ChatInputState extends State<ChatInput> {
                   BlocListener<ChatListBloc, ChatListState>(
                     listener: (context, state) {
                       if (state is ChatListError) {
-                        showSnackBar(
-                          context: context,
-                          message: state.message,
-                        );
+                        showSnackBar(context: context, message: state.message);
                       }
                     },
                     child: BlocListener<PostChatBloc, PostChatState>(
@@ -197,9 +194,7 @@ class _ChatInputState extends State<ChatInput> {
                           // Update chat history title if it is 'New Chat'
                           if (chatHistory.title == 'New Chat') {
                             final newTitle =
-                                StringFormatter().extractTitle(
-                                  state.message,
-                                ) ??
+                                StringFormatter().extractTitle(state.message) ??
                                 'New Chat';
                             context.read<ChatHistoryBloc>().add(
                               ChatHistoryUpdated(
@@ -228,7 +223,11 @@ class _ChatInputState extends State<ChatInput> {
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(16),
                         ),
-                        onPressed: _onSendMessage,
+                        onPressed:
+                            context.watch<PostChatBloc>().state
+                                    is PostChatLoading
+                                ? null
+                                : _onSendMessage,
                         child: Icon(SolarIconsOutline.plain3, size: 20),
                       ),
                     ),

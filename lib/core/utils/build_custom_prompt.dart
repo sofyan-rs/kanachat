@@ -31,9 +31,9 @@ String buildCustomPrompt({
     );
     buffer.writeln(detailsBuffer.toString());
     buffer.writeln();
+    buffer.writeln('---\n');
   }
 
-  buffer.writeln('---\n');
   buffer.writeln('**Instructions:**');
   buffer.writeln(
     'Respond to the user\'s input **in character**, reflecting the personality, occupation, and any additional context. Use **Markdown formatting** where appropriate (bold, italic, lists, etc.).',
