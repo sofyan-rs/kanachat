@@ -1,7 +1,7 @@
 name: kanachat
 description: "An Open Source ChatBot Application using Google Vertex AI build with Flutter."
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ^3.7.2

@@ -32,7 +32,14 @@ class ChatRemoteDatasourceImpl implements ChatRemoteDatasource {
         recentMessages: chatHistory,
       );
       final chat = model.startChat(
-        history: chatHistory.map((chat) => Content.text(chat.message)).toList(),
+        history:
+            chatHistory
+                .map(
+                  (chat) => Content(chat.isUser ? 'user' : 'model', [
+                    TextPart(chat.message),
+                  ]),
+                )
+                .toList(),
         generationConfig: GenerationConfig(
           temperature: 0.7,
           maxOutputTokens: 512,
