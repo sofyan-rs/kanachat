@@ -11,7 +11,7 @@ class TypewriterMarkdown extends StatefulWidget {
   const TypewriterMarkdown({
     super.key,
     required this.markdownText,
-    this.charDelay = const Duration(milliseconds: 20),
+    this.charDelay = const Duration(milliseconds: 10),
     required this.isMe,
     required this.isTyping,
   });

@@ -124,12 +124,12 @@ class _ChatInputState extends State<ChatInput> {
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
-              Stack(
+              Row(
+                // crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   BlocBuilder<AppThemeCubit, AppThemeEntity>(
                     builder: (context, state) {
-                      return SizedBox(
-                        width: double.infinity,
+                      return Expanded(
                         child: TextField(
                           minLines: 1,
                           maxLines: 4,
@@ -142,15 +142,15 @@ class _ChatInputState extends State<ChatInput> {
                                     : AppColors.lightSurface,
                             filled: true,
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none,
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none,
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide.none,
                             ),
                             contentPadding: EdgeInsets.symmetric(
